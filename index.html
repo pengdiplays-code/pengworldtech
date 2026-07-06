@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PengWorld Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            color: #ffffff;
+        }
+
+        .hero-center {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .headline {
+            font-size: clamp(2rem, 7vw, 6.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 3.5rem;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        .cta-btn {
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 1.5rem 4rem;
+            font-size: 1.35rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cta-btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666666;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* OVERLAY */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .form-card {
+            background: #000000;
+            border: 1px solid #333333;
+            padding: 3rem;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            color: #888888;
+            font-size: 2rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-btn:hover { color: #ffffff; }
+
+        .form-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .form-card p {
+            color: #888888;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: #888888;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: #000000;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 1rem;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-group input:focus { border-color: #ffffff; }
+        .input-group input::placeholder { color: #444444; }
+
+        .submit-btn {
+            width: 100%;
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid #ffffff;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Beehiiv form container */
+        .beehiiv-wrap {
+            width: 100%;
+        }
+
+        /* Force Beehiiv's injected form to match our aesthetic */
+        .beehiiv-wrap iframe {
+            width: 100% !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        /* CONTENT ZONES */
+        .content-wrapper {
+            border-top: 1px solid #1c1c1e;
+            padding: 0 2.5rem;
+        }
+
+        .counter-section {
+            padding: 6rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid #1c1c1e;
+            text-align: center;
+        }
+
+        .counter-num {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums;
+            line-height: 1;
+        }
+
+        .counter-label {
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .grid-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid #1c1c1e;
+        }
+
+        .grid-item {
+            padding: 6rem 3rem 6rem 0;
+        }
+
+        .grid-item:last-child {
+            padding: 6rem 0 6rem 3rem;
+            border-left: 1px solid #1c1c1e;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            border: 1px solid #333333;
+            padding: 0.3rem 0.8rem;
+        }
+
+        .section-desc {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #a1a1a6;
+            font-weight: 400;
+        }
+
+        .roadmap-full {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 0 10rem 0;
+        }
+
+        .roadmap-full .section-desc {
+            max-width: 800px;
+            font-size: 1.5rem;
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .grid-section { grid-template-columns: 1fr; }
+            .grid-item {
+                padding: 4rem 0 !important;
+                border-left: none !important;
+                border-bottom: 1px solid #1c1c1e;
+            }
+            .grid-item:last-child { border-bottom: none; }
+            .headline { white-space: normal; }
+            .counter-section, .roadmap-full { padding: 4rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="logo-container">
+            <div class="logo">PengWorld Tech</div>
+        </div>
+        <div class="hero-center">
+            <h1 class="headline">built by you, for you.</h1>
+            <button class="cta-btn" id="openFormBtn">Join the movement</button>
+        </div>
+        <div class="scroll-indicator">Scroll down</div>
+    </section>
+
+    <!-- OVERLAY FORM -->
+    <div class="overlay" id="formOverlay">
+        <div class="form-card">
+            <button class="close-btn" id="closeFormBtn">&times;</button>
+
+            <h2>Enter PengWorld</h2>
+            <p>Become a part of the next generation of tech.</p>
+
+            <div class="beehiiv-wrap">
+                <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="8e22aea4-0caf-4ae7-b71f-5fcd04d62af1"></script>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-wrapper">
+        <section class="counter-section">
+            <div class="counter-num" id="liveCounter">000,142</div>
+            <div class="counter-label">Members Checked In</div>
+        </section>
+
+        <section class="grid-section">
+            <div class="grid-item">
+                <div class="section-title">The Problem</div>
+                <div class="section-desc">
+                    Big Tech treats you like a product. They harvest your data, trap you in closed ecosystems, and answer exclusively to corporate boards and Wall Street stakeholders.
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="section-title">The Solution</div>
+                <div class="section-desc">
+                    PengWorld Tech listens to its users. We are building a secure, independent ecosystem <span class="highlight">funded and directed by you, for you.</span> No data harvesting. No AI features being shoved in your face. Just a pure, ethical, transparent network.
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap-full">
+            <div class="section-title">The Roadmap</div>
+            <div class="section-desc">
+                We are setting up an amazing digital ecosystem fuelled by the community. First up is <span class="highlight">PengHub</span>, the foundation of the network. From there, we build based on real user demand. Instead of guessing what people want, the community directly shapes the ecosystem's expansion, choosing which apps, platforms, and tools get developed next, and how they get developed!
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const overlay  = document.getElementById('formOverlay');
+        const openBtn  = document.getElementById('openFormBtn');
+        const closeBtn = document.getElementById('closeFormBtn');
+        const counterEl = document.getElementById('liveCounter');
+
+        openBtn.addEventListener('click', () => overlay.classList.add('active'));
+        closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+
+        // Simulated live count ticker
+        let currentCount = 142;
+        setInterval(() => {
+            if (Math.random() > 0.6) {
+                currentCount += 1;
+                let s = String(currentCount).padStart(6, '0');
+                counterEl.textContent = s.slice(0, 3) + ',' + s.slice(3);
+            }
+        }, 3500);
+    </script>
+</body>
+</html>
