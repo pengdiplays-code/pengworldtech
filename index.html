@@ -47,7 +47,7 @@
         .social-icons {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 2rem;
         }
 
         .social-icons a {
@@ -64,6 +64,8 @@
 
         .social-icons svg {
             display: block;
+            width: 66px;
+            height: 66px;
         }
 
         .hero-center {
@@ -106,17 +108,7 @@
             color: #000000;
         }
 
-        .scroll-indicator {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #666666;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
+
 
         /* OVERLAY */
         .overlay {
@@ -196,30 +188,6 @@
             padding: 0 2.5rem;
         }
 
-        .counter-section {
-            padding: 6rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-            border-bottom: 1px solid #1c1c1e;
-            text-align: center;
-        }
-
-        .counter-num {
-            font-size: clamp(3rem, 6vw, 5rem);
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            font-variant-numeric: tabular-nums;
-            line-height: 1;
-        }
-
-        .counter-label {
-            color: #666666;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
 
         .grid-section {
             max-width: 1200px;
@@ -284,7 +252,7 @@
             .headline { white-space: normal; }
             .counter-section, .roadmap-full { padding: 4rem 0; }
             .social-icons { gap: 1rem; }
-            .social-icons svg { width: 18px; height: 18px; }
+            .social-icons svg { width: 36px; height: 36px; }
         }
     </style>
 </head>
@@ -323,7 +291,7 @@
             <button class="cta-btn" id="openFormBtn">Join the movement</button>
         </div>
 
-        <div class="scroll-indicator">Scroll down</div>
+
     </section>
 
     <!-- OVERLAY FORM -->
@@ -339,10 +307,7 @@
 
     <!-- CONTENT -->
     <div class="content-wrapper">
-        <section class="counter-section">
-            <div class="counter-num" id="liveCounter">000,142</div>
-            <div class="counter-label">Members Checked In</div>
-        </section>
+
 
         <section class="grid-section">
             <div class="grid-item">
@@ -372,7 +337,7 @@
         const openBtn    = document.getElementById('openFormBtn');
         const closeBtn   = document.getElementById('closeFormBtn');
         const container  = document.getElementById('beehiivContainer');
-        const counterEl  = document.getElementById('liveCounter');
+
 
         let formLoaded = false;
 
@@ -393,15 +358,7 @@
         closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
         overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
 
-        // Simulated live count ticker
-        let currentCount = 142;
-        setInterval(() => {
-            if (Math.random() > 0.6) {
-                currentCount += 1;
-                let s = String(currentCount).padStart(6, '0');
-                counterEl.textContent = s.slice(0, 3) + ',' + s.slice(3);
-            }
-        }, 3500);
+
     </script>
 </body>
 </html>
